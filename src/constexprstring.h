@@ -37,6 +37,7 @@ constexpr int strcmp_impl(const char *lhs, const char *rhs, std::size_t const co
       }
     }
   }
+  return BOTH_EQUAL;
 }
 
 } // namespace detail
@@ -51,6 +52,10 @@ constexpr std::size_t strlen(const char *str) {
 
 constexpr int strcmp(const char *lhs, const char *rhs) {
   return detail::strcmp_impl(lhs,rhs);
+}
+
+constexpr int strncmp(const char *lhs, const char *rhs, std::size_t count ) {
+  return detail::strcmp_impl(lhs,rhs,count);
 }
 
 } // namespace constexprstring
