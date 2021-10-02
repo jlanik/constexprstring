@@ -1,8 +1,3 @@
-cc_binary(
-	name = "hello-world",
-	srcs = ["hello_world.cpp"],
-)
-
 cc_library(
 	name = "constexprstring",
 	hdrs = ["constexprstring.h"]
