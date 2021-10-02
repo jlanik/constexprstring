@@ -2,20 +2,13 @@
 
 namespace constexprstring {
 
-constexpr std::size_t strlen(const char *str) {
-  std::size_t cnt{};
-  for (char const *it = str; *it != '\0'; ++it) {
-    ++cnt;
-  }
-  return cnt;
-}
-
-constexpr int strcmp(const char *lhs, const char *rhs) {
+namespace detail {
+constexpr int strcmp_impl(const char *lhs, const char *rhs) {
   constexpr int LEFT_LOWER{-1};
   constexpr int LEFT_GREATER{1};
   constexpr int BOTH_EQUAL{0};
 
-  while(true) {
+  while (true) {
     if ('\0' == *lhs) {
       if ('\0' == *rhs) {
         // both empty
@@ -43,9 +36,21 @@ constexpr int strcmp(const char *lhs, const char *rhs) {
         }
       }
     }
-
   }
 }
 
+} // namespace detail
 
-} //namespace constexprstring
+constexpr std::size_t strlen(const char *str) {
+  std::size_t cnt{};
+  for (char const *it = str; *it != '\0'; ++it) {
+    ++cnt;
+  }
+  return cnt;
+}
+
+constexpr int strcmp(const char *lhs, const char *rhs) {
+  return detail::strcmp_impl(lhs,rhs);
+}
+
+} // namespace constexprstring
