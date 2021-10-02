@@ -1,5 +1,15 @@
 #include <cstddef>
 
+///
+/// Contains constexpr implementation of functions from <cstring>
+///
+/// The following functions are a ommited
+/// (1) Functions that modify it's arguments.
+/// (2) Functions that have a side effect ()
+/// (3) Functions that use locale (strcoll)
+///
+
+
 namespace constexprstring {
 
 namespace detail {
