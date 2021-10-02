@@ -66,19 +66,43 @@ TEST(StrCmpTest, OneCharDifferent) {
 TEST(StrCmpTest, Same) {
   constexpr const char *str1 = "Hi There!";
   constexpr const char *str2 = "Hi There!";
+  static_assert(0 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(0, cxs::strcmp(str1, str2));
+  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
 }
 
 TEST(StrCmpTest, Prefix) {
   constexpr const char *str1 = "Hi";
   constexpr const char *str2 = "Hi There!";
+  static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(-1, cxs::strcmp(str1, str2));
+  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
   EXPECT_EQ(1, cxs::strcmp(str2, str1));
+  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
 }
 
-TEST(StrCmpTest, DifferentFirstChar) {}
+TEST(StrCmpTest, DifferentFirstChar) {
+  constexpr const char *str1 = "Atralala";
+  constexpr const char *str2 = "Btralala";
+  static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
+  EXPECT_EQ(-1, cxs::strcmp(str1, str2));
+  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
+  EXPECT_EQ(1, cxs::strcmp(str2, str1));
+  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
+}
 
-TEST(StrCmpTest, DifferentLaterChar) {}
+TEST(StrCmpTest, DifferentLaterChar) {
+  constexpr const char *str1 = "tralaAla";
+  constexpr const char *str2 = "tralaCla";
+  static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
+  EXPECT_EQ(-1, cxs::strcmp(str1, str2));
+  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
+  EXPECT_EQ(1, cxs::strcmp(str2, str1));
+  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
+}
 
 // strncmp
 

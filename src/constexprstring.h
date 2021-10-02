@@ -15,41 +15,36 @@ constexpr int strcmp(const char *lhs, const char *rhs) {
   constexpr int LEFT_GREATER{1};
   constexpr int BOTH_EQUAL{0};
 
-  // This copy is necessary as lhs and rhs can not be modified in constexpr
-  // context.
-  char const *lptr = lhs;
-  char const *rptr = rhs;
-
-  do {
-    if ('\0' == *lptr) {
-      if ('\0' == *rptr) {
+  while(true) {
+    if ('\0' == *lhs) {
+      if ('\0' == *rhs) {
         // both empty
         return BOTH_EQUAL;
       } else {
-        // lptr is a prefix of rptr
+        // lhs is a prefix of rhs
         return LEFT_LOWER;
       }
     } else {
-      if ('\0' == *rptr) {
-        // rptr is a prefix of lptr
+      if ('\0' == *rhs) {
+        // rhs is a prefix of lhs
         return LEFT_GREATER;
       } else {
-        int const diff = (static_cast<int>(static_cast<unsigned char>(*lptr)) -
-                          static_cast<int>(static_cast<unsigned char>(*rptr)));
+        int const diff = (static_cast<int>(static_cast<unsigned char>(*lhs)) -
+                          static_cast<int>(static_cast<unsigned char>(*rhs)));
         if (diff > 0) {
           return LEFT_GREATER;
         } else if (diff < 0) {
           return LEFT_LOWER;
         } else {
           // Equal until now - need to look at the next symbol.
-          ++lptr;
-          ++rptr;
+          ++lhs;
+          ++rhs;
           continue;
         }
       }
     }
 
-  } while (true);
+  }
 }
 
 
