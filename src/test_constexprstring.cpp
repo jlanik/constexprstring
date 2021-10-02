@@ -6,6 +6,18 @@
 
 namespace cxs = constexprstring;
 
+namespace {
+  int sign(int val){
+    if ( val > 0 ){
+      return 1;
+    } else if ( val < 0 ){
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+}
+
 // c++14 compatibility
 TEST(CPP14Compatibility,Check){
   //EXPECT_EQ( 201103L, __cplusplus);
@@ -33,17 +45,17 @@ TEST(StrCmpTest, Empty) {
   constexpr const char *str_nonempty = "HelloWorld!";
   static_assert(cxs::strcmp(str_empty1, str_empty2) == 0, "Test Failure");
   EXPECT_EQ(0, cxs::strcmp(str_empty1, str_empty2));
-  EXPECT_EQ(std::strcmp(str_empty1, str_empty2),
+  EXPECT_EQ(sign(std::strcmp(str_empty1, str_empty2)),
             cxs::strcmp(str_empty1, str_empty2));
 
   static_assert(-1 == cxs::strcmp(str_empty1, str_nonempty), "Test Failure");
   EXPECT_EQ(-1, cxs::strcmp(str_empty1, str_nonempty));
-  EXPECT_EQ(std::strcmp(str_empty1, str_nonempty),
+  EXPECT_EQ(sign(std::strcmp(str_empty1, str_nonempty)),
             cxs::strcmp(str_empty1, str_nonempty));
 
   static_assert(1 == cxs::strcmp(str_nonempty, str_empty1), "Test Failure");
   EXPECT_EQ(1, cxs::strcmp(str_nonempty, str_empty1));
-  EXPECT_EQ(std::strcmp(str_nonempty, str_empty1),
+  EXPECT_EQ(sign(std::strcmp(str_nonempty, str_empty1)),
             cxs::strcmp(str_nonempty, str_empty1));
 }
 
@@ -52,7 +64,7 @@ TEST(StrCmpTest, OneCharSame) {
   constexpr const char *str2 = "H";
   static_assert(0 == cxs::strcmp(str1, str2), "Test Failure");
   EXPECT_EQ(0, cxs::strcmp(str1, str2));
-  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  EXPECT_EQ(sign(std::strcmp(str1, str2)), cxs::strcmp(str1, str2));
 }
 TEST(StrCmpTest, OneCharDifferent) {
   constexpr const char *str1 = "H";
@@ -68,7 +80,7 @@ TEST(StrCmpTest, Same) {
   constexpr const char *str2 = "Hi There!";
   static_assert(0 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(0, cxs::strcmp(str1, str2));
-  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  EXPECT_EQ(sign(std::strcmp(str1, str2)), cxs::strcmp(str1, str2));
 }
 
 TEST(StrCmpTest, Prefix) {
@@ -76,35 +88,49 @@ TEST(StrCmpTest, Prefix) {
   constexpr const char *str2 = "Hi There!";
   static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(-1, cxs::strcmp(str1, str2));
-  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  EXPECT_EQ(sign(std::strcmp(str1, str2)), cxs::strcmp(str1, str2));
   static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
   EXPECT_EQ(1, cxs::strcmp(str2, str1));
-  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
+  EXPECT_EQ(sign(std::strcmp(str2, str1)), cxs::strcmp(str2, str1));
 }
 
 TEST(StrCmpTest, DifferentFirstChar) {
   constexpr const char *str1 = "Atralala";
-  constexpr const char *str2 = "Btralala";
+  constexpr const char *str2 = "Ftralala";
   static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(-1, cxs::strcmp(str1, str2));
-  EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
+  EXPECT_EQ(sign(std::strcmp(str1, str2)), cxs::strcmp(str1, str2));
   static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
   EXPECT_EQ(1, cxs::strcmp(str2, str1));
-  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
+  EXPECT_EQ(sign(std::strcmp(str2, str1)), cxs::strcmp(str2, str1));
 }
 
 TEST(StrCmpTest, DifferentLaterChar) {
   constexpr const char *str1 = "tralaAla";
-  constexpr const char *str2 = "tralaCla";
+  constexpr const char *str2 = "tralaUla";
   static_assert(-1 == cxs::strcmp(str1, str2), "Test Failute");
   EXPECT_EQ(-1, cxs::strcmp(str1, str2));
   EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
   static_assert(1 == cxs::strcmp(str2, str1), "Test Failute");
   EXPECT_EQ(1, cxs::strcmp(str2, str1));
-  EXPECT_EQ(std::strcmp(str2, str1), cxs::strcmp(str2, str1));
+  EXPECT_EQ(sign(std::strcmp(str2, str1)), cxs::strcmp(str2, str1));
 }
 
 // strncmp
+TEST(StrnCmpTest, Offsets) {
+  constexpr const char *str1 = "tralaAla";
+  constexpr const char *str2 = "tralaXla";
+  static_assert(0 == cxs::strncmp(str1, str2,0), "Test Failute");
+  static_assert(0 == cxs::strncmp(str1, str2,1), "Test Failute");
+  static_assert(0 == cxs::strncmp(str1, str2,4), "Test Failute");
+  static_assert(-1 == cxs::strncmp(str1, str2,6), "Test Failute");
+  static_assert(-1 == cxs::strncmp(str1, str2,7), "Test Failute");
+  EXPECT_EQ(sign(std::strncmp(str1, str2, 0)), cxs::strncmp(str1, str2, 0));
+  EXPECT_EQ(sign(std::strncmp(str1, str2, 1)), cxs::strncmp(str1, str2, 1));
+  EXPECT_EQ(sign(std::strncmp(str1, str2, 4)), cxs::strncmp(str1, str2, 4));
+  EXPECT_EQ(sign(std::strncmp(str1, str2, 6)), cxs::strncmp(str1, str2, 6));
+  EXPECT_EQ(sign(std::strncmp(str1, str2, 7)), cxs::strncmp(str1, str2, 7));
+}
 
 // strcoll
 

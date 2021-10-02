@@ -50,6 +50,12 @@ constexpr std::size_t strlen(const char *str) {
   return cnt;
 }
 
+///
+/// @return -1 if lhs is lexicographically lower than rhs, 
+///   0 if lhs and rhs are the same and 1 if lhs is greater than rhs.
+///
+/// This definition is a bit narower than in std::strcmp(), where other positive
+/// and negative values are also allowed.
 constexpr int strcmp(const char *lhs, const char *rhs) {
   return detail::strcmp_impl(lhs,rhs);
 }
