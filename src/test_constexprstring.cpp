@@ -6,6 +6,12 @@
 
 namespace cxs = constexprstring;
 
+// c++14 compatibility
+TEST(CPP14Compatibility,Check){
+  //EXPECT_EQ( 201103L, __cplusplus);
+  EXPECT_EQ( 201402L, __cplusplus);
+}
+
 // strlen
 TEST(StrlenTest, Empty) {
   constexpr const char *str = "";
@@ -44,16 +50,16 @@ TEST(StrCmpTest, Empty) {
 TEST(StrCmpTest, OneCharSame) {
   constexpr const char *str1 = "H";
   constexpr const char *str2 = "H";
-  // static_assert(0 == cxs::strcmp(str1, str2), "Test Failure");
+  static_assert(0 == cxs::strcmp(str1, str2), "Test Failure");
   EXPECT_EQ(0, cxs::strcmp(str1, str2));
   EXPECT_EQ(std::strcmp(str1, str2), cxs::strcmp(str1, str2));
 }
 TEST(StrCmpTest, OneCharDifferent) {
   constexpr const char *str1 = "H";
   constexpr const char *str2 = "X";
-  // static_assert(-1 == cxs::strcmp(str1, str2), "Test Failure");
+  static_assert(-1 == cxs::strcmp(str1, str2), "Test Failure");
   EXPECT_EQ(-1, cxs::strcmp(str1, str2));
-  // static_assert(1 == cxs::strcmp(str2, str1), "Test Failure");
+  static_assert(1 == cxs::strcmp(str2, str1), "Test Failure");
   EXPECT_EQ(1, cxs::strcmp(str2, str1));
 }
 

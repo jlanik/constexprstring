@@ -51,4 +51,6 @@ constexpr int strcmp(const char *lhs, const char *rhs) {
 
   } while (true);
 }
-}
+
+
+} //namespace constexprstring
