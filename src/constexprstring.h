@@ -3,12 +3,12 @@
 namespace constexprstring {
 
 namespace detail {
-constexpr int strcmp_impl(const char *lhs, const char *rhs) {
+constexpr int strcmp_impl(const char *lhs, const char *rhs, std::size_t const count = -1 ) {
   constexpr int LEFT_LOWER{-1};
   constexpr int LEFT_GREATER{1};
   constexpr int BOTH_EQUAL{0};
 
-  while (true) {
+  for (size_t i{}; i <= count; ++i) {
     if ('\0' == *lhs) {
       if ('\0' == *rhs) {
         // both empty
