@@ -1,3 +1,10 @@
+/* Copyright (C) 2021 Jan Lanik - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the Apache license version 2.0. 
+ * 
+ * See http://www.apache.org/licenses/
+ */
+
 #include "constexprstring.h"
 
 #include <gtest/gtest.h>
@@ -132,9 +139,12 @@ TEST(StrnCmpTest, Offsets) {
   EXPECT_EQ(sign(std::strncmp(str1, str2, 7)), cxs::strncmp(str1, str2, 7));
 }
 
-// strcoll
-
 // strchr
+TEST(StrChrTest, Empty){
+  constexpr char const* str = "";
+  static_assert( nullptr == cxs::strchr(str,'A'));
+  EXPECT_EQ(nullptr, cxs::strchr(str,'?'));
+}
 
 // strrchr
 

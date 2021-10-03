@@ -1,3 +1,10 @@
+/* Copyright (C) 2021 Jan Lanik - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the Apache license version 2.0. 
+ * 
+ * See http://www.apache.org/licenses/
+ */
+
 #include <cstddef>
 
 ///
@@ -73,5 +80,11 @@ constexpr int strcmp(const char *lhs, const char *rhs) {
 constexpr int strncmp(const char *lhs, const char *rhs, std::size_t count ) {
   return detail::strcmp_impl(lhs,rhs,count);
 }
+
+constexpr const char* strchr( const char* str, int ch )
+{
+  return nullptr;    
+}
+
 
 } // namespace constexprstring
