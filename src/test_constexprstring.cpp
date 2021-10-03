@@ -164,6 +164,30 @@ TEST(StrChrTest, AllCharactersCanBeFound){
 }
 
 // strrchr
+TEST(StrRchrTest, Empty){
+  constexpr char const* str = "";
+  static_assert( nullptr == cxs::strrchr(str,'A'));
+  EXPECT_EQ(nullptr, cxs::strrchr(str,'?'));
+}
+TEST(StrRchrTest, NonEmpty){
+  constexpr char const* str = "Tralala";
+  static_assert( str+5 == cxs::strrchr(str,'l'));
+  EXPECT_EQ(std::strrchr(str,'l'), cxs::strrchr(str,'l'));
+}
+TEST(StrRchrTest, AllCharactersCanBeFound){
+  char allchars[511];
+  for ( size_t i {}; i < 255; ++i ){
+    allchars[i] = static_cast<char>(i+1);
+    allchars[255+i] = static_cast<char>(i+1);
+  }
+  allchars[510] = '\0';
+  EXPECT_EQ(510, std::strlen(allchars));
+  for ( size_t i {}; i < 255; ++i ){
+    char const symbol = allchars[i]; 
+    EXPECT_EQ(allchars+255+i, cxs::strrchr(allchars,symbol));
+    EXPECT_EQ(std::strrchr(allchars,symbol), cxs::strrchr(allchars,symbol));
+  }
+}
 
 // strspn
 

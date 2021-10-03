@@ -91,5 +91,16 @@ constexpr const char* strchr( const char* str, int ch )
   return nullptr;
 }
 
+constexpr const char* strrchr( const char* str, int ch )
+{
+  char const* last_position {nullptr};
+  for (;*str!='\0';++str){
+    if ( ch ==static_cast<int>(*str) ){
+      last_position = str;
+    }
+  }
+  return last_position;
+}
+
 
 } // namespace constexprstring
