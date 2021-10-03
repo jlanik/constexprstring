@@ -83,7 +83,12 @@ constexpr int strncmp(const char *lhs, const char *rhs, std::size_t count ) {
 
 constexpr const char* strchr( const char* str, int ch )
 {
-  return nullptr;    
+  for (;*str!='\0';++str){
+    if ( ch ==static_cast<int>(*str) ){
+      return str;
+    }
+  }
+  return nullptr;
 }
 
 
