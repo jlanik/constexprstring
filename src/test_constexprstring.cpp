@@ -191,6 +191,26 @@ TEST(StrRchrTest, AllCharactersCanBeFound) {
 }
 
 // strspn
+TEST(StrSpnTest, EmptySrc) {
+    constexpr char const *dst = "foobar";
+    constexpr char const *src = "";
+    static_assert(0 == cxs::strspn(dst, src), "Test Failure");
+    EXPECT_EQ(std::strspn(dst, src), cxs::strspn(dst, src));
+}
+
+TEST(StrSpnTest, AllIn) {
+    constexpr char const *dst = "foobar";
+    constexpr char const *src = "foobar";
+    static_assert(6 == cxs::strspn(dst, src), "Test Failure");
+    EXPECT_EQ(std::strspn(dst, src), cxs::strspn(dst, src));
+}
+
+TEST(StrSpnTest, CppReferenceTestCase) {
+    constexpr char const *low_alpha = "qwertyuiopasdfghjklzxcvbnm";
+    constexpr char const *dst = "abcde312$#@";
+    static_assert(5 == cxs::strspn(dst, low_alpha), "Test Failure");
+    EXPECT_EQ(std::strspn(dst, low_alpha), cxs::strspn(dst, low_alpha));
+}
 
 // strcspn
 
@@ -203,3 +223,5 @@ TEST(StrRchrTest, AllCharactersCanBeFound) {
 // memchr
 
 // memcmp
+
+// tests of helper functions

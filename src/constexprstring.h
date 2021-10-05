@@ -6,6 +6,7 @@
  */
 
 #include <cstddef>
+#include <cstdint>
 
 ///
 /// Contains constexpr implementation of functions from <cstring>
@@ -101,6 +102,28 @@ constexpr const char *strrchr(const char *str, int ch) {
     return last_position;
 }
 
-size_t strspn(const char *dest, const char *src) {}
+constexpr size_t strspn(const char *dest, const char *src) {
+    std::uint64_t charset[4]{};
+    for (char const *it = src; *it != '\0'; ++it) {
+        char const symbol = *it;
+        auto const val = static_cast<unsigned char>(symbol);
+        size_t const word_idx = val / 64;
+        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
+        charset[word_idx] |= mask;
+    }
+
+    size_t cnt{};
+    for (char const *it = dest; *it != '\0'; ++it) {
+        char const symbol = *it;
+        auto const val = static_cast<unsigned char>(symbol);
+        size_t const word_idx = val / 64;
+        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
+        if (!(charset[word_idx] & mask)) {
+            break;
+        }
+        ++cnt;
+    }
+    return cnt;
+}
 
 } // namespace constexprstring
