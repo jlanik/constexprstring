@@ -62,13 +62,18 @@ constexpr int strcmp_impl(const char *lhs, const char *rhs,
 class CharSet {
   public:
     constexpr CharSet() = default;
-    void set(char symbol) {
+    constexpr CharSet(char const *str) {
+        for (char const *it = str; *it != '\0'; ++it) {
+            set(*it);
+        }
+    }
+    constexpr void set(char symbol) {
         auto const val = static_cast<unsigned char>(symbol);
         size_t const word_idx = val / 64;
         std::uint64_t const mask = std::uint64_t{1} << (val % 64);
         charset_[word_idx] |= mask;
     }
-    bool isSet(char symbol) const {
+    constexpr bool isSet(char symbol) const {
         auto const val = static_cast<unsigned char>(symbol);
         size_t const word_idx = val / 64;
         std::uint64_t const mask = std::uint64_t{1} << (val % 64);
@@ -128,22 +133,14 @@ constexpr const char *strrchr(const char *str, int ch) {
 }
 
 constexpr size_t strspn(const char *dest, const char *src) {
-    std::uint64_t charset[4]{};
+    detail::CharSet charset{};
     for (char const *it = src; *it != '\0'; ++it) {
-        char const symbol = *it;
-        auto const val = static_cast<unsigned char>(symbol);
-        size_t const word_idx = val / 64;
-        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
-        charset[word_idx] |= mask;
+        charset.set(*it);
     }
 
     size_t cnt{};
     for (char const *it = dest; *it != '\0'; ++it) {
-        char const symbol = *it;
-        auto const val = static_cast<unsigned char>(symbol);
-        size_t const word_idx = val / 64;
-        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
-        if (!(charset[word_idx] & mask)) {
+        if (!charset.isSet(*it)) {
             break;
         }
         ++cnt;

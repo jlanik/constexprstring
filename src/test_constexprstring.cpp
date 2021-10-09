@@ -256,3 +256,38 @@ TEST(CharSetTest, SetCharIsSetExhaustive) {
         EXPECT_TRUE(chs.isSet(symbol));
     }
 }
+TEST(CharSetTest, DefaultConstructedIsEmpty) {
+    cxs::detail::CharSet chs{};
+    for (size_t i{0}; i <= 255; ++i) {
+        char const symbol = static_cast<char>(i);
+        EXPECT_FALSE(chs.isSet(symbol));
+    }
+}
+TEST(CharSetTest, StringConstructor) {
+    constexpr char const *characters = "acf845;)p";
+    constexpr cxs::detail::CharSet chs(characters);
+    for (size_t i{0}; i <= 255; ++i) {
+        char const symbol = static_cast<char>(i);
+        bool const is_null = ('\0' == symbol);
+        bool const found_in_characters =
+            (std::strchr(characters, symbol) != nullptr);
+        bool const should_be_set = !is_null && found_in_characters;
+        if (should_be_set) {
+            EXPECT_TRUE(chs.isSet(symbol))
+                << "Symbol " << symbol << " should be set!";
+        } else {
+            EXPECT_FALSE(chs.isSet(symbol))
+                << "Symbol " << symbol << " should not be set!";
+        }
+    }
+}
+TEST(CharSetTest, StringConstructorConstexpr) {
+    constexpr char const *characters = "ac4";
+    constexpr cxs::detail::CharSet chs(characters);
+    static_assert(chs.isSet('a'));
+    static_assert(chs.isSet('c'));
+    static_assert(chs.isSet('4'));
+    static_assert(!chs.isSet('b'));
+    static_assert(!chs.isSet('C'));
+    static_assert(!chs.isSet('9'));
+}
