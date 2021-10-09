@@ -133,11 +133,7 @@ constexpr const char *strrchr(const char *str, int ch) {
 }
 
 constexpr size_t strspn(const char *dest, const char *src) {
-    detail::CharSet charset{};
-    for (char const *it = src; *it != '\0'; ++it) {
-        charset.set(*it);
-    }
-
+    detail::CharSet charset{src};
     size_t cnt{};
     for (char const *it = dest; *it != '\0'; ++it) {
         if (!charset.isSet(*it)) {
