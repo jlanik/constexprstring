@@ -59,6 +59,25 @@ constexpr int strcmp_impl(const char *lhs, const char *rhs,
     return BOTH_EQUAL;
 }
 
+class CharSet {
+  public:
+    constexpr CharSet() = default;
+    void set(char symbol) {
+        auto const val = static_cast<unsigned char>(symbol);
+        size_t const word_idx = val / 64;
+        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
+        charset_[word_idx] |= mask;
+    }
+    bool isSet(char symbol) const {
+        auto const val = static_cast<unsigned char>(symbol);
+        size_t const word_idx = val / 64;
+        std::uint64_t const mask = std::uint64_t{1} << (val % 64);
+        return charset_[word_idx] & mask;
+    }
+
+  private:
+    std::uint64_t charset_[4]{};
+};
 } // namespace detail
 
 constexpr std::size_t strlen(const char *str) {

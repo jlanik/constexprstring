@@ -234,4 +234,25 @@ TEST(StrSpnTest, CppReferenceTestCase) {
 
 // memcmp
 
-// tests of helper functions
+// tests of helper functions and classes
+TEST(CharSetTest, SetCharIsSetBasic) {
+    cxs::detail::CharSet chs{};
+    chs.set('a');
+    chs.set('x');
+    chs.set('0');
+    EXPECT_TRUE(chs.isSet('a'));
+    EXPECT_TRUE(chs.isSet('x'));
+    EXPECT_TRUE(chs.isSet('0'));
+    EXPECT_FALSE(chs.isSet('b'));
+    EXPECT_FALSE(chs.isSet('Z'));
+    EXPECT_FALSE(chs.isSet('+'));
+}
+TEST(CharSetTest, SetCharIsSetExhaustive) {
+    for (size_t i{0}; i <= 255; ++i) {
+        char const symbol = static_cast<char>(i);
+        cxs::detail::CharSet chs{};
+        EXPECT_FALSE(chs.isSet(symbol));
+        chs.set(symbol);
+        EXPECT_TRUE(chs.isSet(symbol));
+    }
+}
