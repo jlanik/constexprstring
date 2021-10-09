@@ -144,4 +144,16 @@ constexpr size_t strspn(const char *dest, const char *src) {
     return cnt;
 }
 
+constexpr size_t strcspn(const char *dest, const char *src) {
+    detail::CharSet charset{src};
+    size_t cnt{};
+    for (char const *it = dest; *it != '\0'; ++it) {
+        if (charset.isSet(*it)) {
+            break;
+        }
+        ++cnt;
+    }
+    return cnt;
+}
+
 } // namespace constexprstring

@@ -224,6 +224,27 @@ TEST(StrSpnTest, CppReferenceTestCase) {
 
 // strcspn
 
+TEST(StrCSpnTest, EmptySrc) {
+    constexpr char const *dst = "foobar";
+    constexpr char const *src = "";
+    static_assert(6 == cxs::strcspn(dst, src), "Test Failure");
+    EXPECT_EQ(std::strcspn(dst, src), cxs::strcspn(dst, src));
+}
+
+TEST(StrCSpnTest, AllIn) {
+    constexpr char const *dst = "foobar";
+    constexpr char const *src = "foobar";
+    static_assert(0 == cxs::strcspn(dst, src), "Test Failure");
+    EXPECT_EQ(std::strcspn(dst, src), cxs::strcspn(dst, src));
+}
+
+TEST(StrCSpnTest, CppReferenceTestCase) {
+    constexpr char const *invalid = "$#@";
+    constexpr char const *dst = "abcde312$#@";
+    static_assert(8 == cxs::strcspn(dst, invalid), "Test Failure");
+    EXPECT_EQ(std::strcspn(dst, invalid), cxs::strcspn(dst, invalid));
+}
+
 // strpbrk
 
 // strstr
