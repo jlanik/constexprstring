@@ -150,6 +150,11 @@ TEST(StrChrTest, NonEmpty) {
     static_assert(str + 3 == cxs::strchr(str, 'l'));
     EXPECT_EQ(std::strchr(str, 'l'), cxs::strchr(str, 'l'));
 }
+TEST(StrChrTest, NullCanBeFound) {
+    constexpr char const *str = "Tralala";
+    static_assert(str + 7 == cxs::strchr(str, '\0'));
+    EXPECT_EQ(std::strchr(str, '\0'), cxs::strchr(str, '\0'));
+}
 TEST(StrChrTest, AllCharactersCanBeFound) {
     char allchars[256];
     for (size_t i{}; i <= 255; ++i) {
@@ -173,6 +178,11 @@ TEST(StrRchrTest, NonEmpty) {
     constexpr char const *str = "Tralala";
     static_assert(str + 5 == cxs::strrchr(str, 'l'));
     EXPECT_EQ(std::strrchr(str, 'l'), cxs::strrchr(str, 'l'));
+}
+TEST(StrRchrTest, NullCanBeFound) {
+    constexpr char const *str = "Tralala";
+    static_assert(str + 7 == cxs::strrchr(str, '\0'));
+    EXPECT_EQ(std::strrchr(str, '\0'), cxs::strrchr(str, '\0'));
 }
 TEST(StrRchrTest, AllCharactersCanBeFound) {
     char allchars[511];

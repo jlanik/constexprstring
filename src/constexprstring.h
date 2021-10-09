@@ -89,6 +89,9 @@ constexpr const char *strchr(const char *str, int ch) {
             return str;
         }
     }
+    if (ch == '\0') {
+        return str;
+    }
     return nullptr;
 }
 
@@ -98,6 +101,9 @@ constexpr const char *strrchr(const char *str, int ch) {
         if (ch == static_cast<int>(*str)) {
             last_position = str;
         }
+    }
+    if (ch == '\0') {
+        return str;
     }
     return last_position;
 }
