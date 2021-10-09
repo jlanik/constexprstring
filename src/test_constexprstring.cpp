@@ -246,6 +246,36 @@ TEST(StrCSpnTest, CppReferenceTestCase) {
 }
 
 // strpbrk
+TEST(StrPbrkTest, AllEmpty) {
+    constexpr char const *dest = "";
+    constexpr char const *breakset = "";
+    static_assert(nullptr == cxs::strpbrk(dest, breakset));
+    EXPECT_EQ(std::strpbrk(dest, breakset), cxs::strpbrk(dest, breakset));
+}
+TEST(StrPbrkTest, DestEmpty) {
+    constexpr char const *dest = "";
+    constexpr char const *breakset = "abc";
+    static_assert(nullptr == cxs::strpbrk(dest, breakset));
+    EXPECT_EQ(std::strpbrk(dest, breakset), cxs::strpbrk(dest, breakset));
+}
+TEST(StrPbrkTest, CppRefferenceExample) {
+    const char *str = "hello world, friend of mine!";
+    const char *sep = " ,!";
+    unsigned int cnt = 0;
+
+    std::string expected[]{" world, friend of mine!", ", friend of mine!",
+                           " of mine!", " mine!", "!"};
+    size_t i{};
+    do {
+        str = cxs::strpbrk(str, sep); // find separator
+        EXPECT_EQ(std::string(str), expected[i]);
+        ++i;
+        if (str) {
+            str += std::strspn(str, sep); // skip separator
+        }
+        ++cnt; // increment word count
+    } while (str && *str);
+}
 
 // strstr
 
