@@ -16,6 +16,16 @@
 /// (2) Functions that have a side effect ()
 /// (3) Functions that use locale (strcoll)
 ///
+/// Functions that are currently implemented:
+/// - strlen
+/// - strcmp
+/// - strncmp
+/// - strchr
+/// - strrchr
+/// - strspn
+/// - strcspn
+/// - strpbrk
+/// - strstr
 
 namespace constexprstring {
 

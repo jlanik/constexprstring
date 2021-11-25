@@ -309,8 +309,6 @@ TEST(StrStrTest, Basic) {
     EXPECT_EQ(haystack + 8, cxs::strstr(haystack, needle));
 }
 
-// strtok NOTE: has internal state, can we adjust it?
-
 // memchr
 
 // memcmp
