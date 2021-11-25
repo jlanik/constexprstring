@@ -304,8 +304,8 @@ TEST(StrStrTest, EmptyHaystack) {
 TEST(StrStrTest, Basic) {
     constexpr char const *haystack = "cdrabgteababauit";
     constexpr char const *needle = "aba";
-    // static_assert( haystack+8 == cxs::strstr(haystack,needle));
-    // EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
+    static_assert(haystack + 8 == cxs::strstr(haystack, needle));
+    EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
     EXPECT_EQ(haystack + 8, cxs::strstr(haystack, needle));
 }
 
