@@ -166,4 +166,22 @@ constexpr const char *strpbrk(const char *dest, const char *breakset) {
     return nullptr;
 }
 
+constexpr const char *strstr(const char *haystack, const char *needle) {
+    char const first_char = *needle;
+    if (first_char == '\0') {
+        return haystack;
+    }
+    size_t const needle_size = strlen(needle);
+    while (true) {
+        haystack = strchr(haystack, first_char);
+        if (haystack == nullptr) {
+            return nullptr;
+        }
+        if (strncmp(haystack, needle, needle_size) == 0) {
+            return haystack;
+        }
+        haystack += 1;
+    }
+}
+
 } // namespace constexprstring

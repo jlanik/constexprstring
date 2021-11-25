@@ -283,6 +283,31 @@ TEST(StrPbrkTest, CppRefferenceExample) {
 }
 
 // strstr
+TEST(StrStrTest, EmptyEmpty) {
+    constexpr char const *haystack = "";
+    constexpr char const *needle = "";
+    static_assert(haystack == cxs::strstr(haystack, needle));
+    EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
+}
+TEST(StrStrTest, EmptyNeedle) {
+    constexpr char const *haystack = "Hello";
+    constexpr char const *needle = "";
+    static_assert(haystack == cxs::strstr(haystack, needle));
+    EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
+}
+TEST(StrStrTest, EmptyHaystack) {
+    constexpr char const *haystack = "";
+    constexpr char const *needle = "x";
+    static_assert(nullptr == cxs::strstr(haystack, needle));
+    EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
+}
+TEST(StrStrTest, Basic) {
+    constexpr char const *haystack = "cdrabgteababauit";
+    constexpr char const *needle = "aba";
+    // static_assert( haystack+8 == cxs::strstr(haystack,needle));
+    // EXPECT_EQ(std::strstr(haystack, needle), cxs::strstr(haystack, needle));
+    EXPECT_EQ(haystack + 8, cxs::strstr(haystack, needle));
+}
 
 // strtok NOTE: has internal state, can we adjust it?
 
