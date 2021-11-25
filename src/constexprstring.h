@@ -26,7 +26,7 @@ constexpr int strcmp_impl(const char *lhs, const char *rhs,
     constexpr int LEFT_GREATER{1};
     constexpr int BOTH_EQUAL{0};
 
-    for (size_t i{}; i <= count; ++i) {
+    for (size_t i{}; i < count; ++i) {
         if ('\0' == *lhs) {
             if ('\0' == *rhs) {
                 // both empty

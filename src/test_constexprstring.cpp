@@ -127,16 +127,21 @@ TEST(StrCmpTest, DifferentLaterChar) {
 TEST(StrnCmpTest, Offsets) {
     constexpr const char *str1 = "tralaAla";
     constexpr const char *str2 = "tralaXla";
-    static_assert(0 == cxs::strncmp(str1, str2, 0), "Test Failute");
-    static_assert(0 == cxs::strncmp(str1, str2, 1), "Test Failute");
-    static_assert(0 == cxs::strncmp(str1, str2, 4), "Test Failute");
-    static_assert(-1 == cxs::strncmp(str1, str2, 6), "Test Failute");
-    static_assert(-1 == cxs::strncmp(str1, str2, 7), "Test Failute");
+    static_assert(0 == cxs::strncmp(str1, str2, 0), "Test Failure");
+    static_assert(0 == cxs::strncmp(str1, str2, 1), "Test Failure");
+    static_assert(0 == cxs::strncmp(str1, str2, 4), "Test Failure");
+    static_assert(-1 == cxs::strncmp(str1, str2, 6), "Test Failure");
+    static_assert(-1 == cxs::strncmp(str1, str2, 7), "Test Failure");
     EXPECT_EQ(sign(std::strncmp(str1, str2, 0)), cxs::strncmp(str1, str2, 0));
     EXPECT_EQ(sign(std::strncmp(str1, str2, 1)), cxs::strncmp(str1, str2, 1));
     EXPECT_EQ(sign(std::strncmp(str1, str2, 4)), cxs::strncmp(str1, str2, 4));
     EXPECT_EQ(sign(std::strncmp(str1, str2, 6)), cxs::strncmp(str1, str2, 6));
     EXPECT_EQ(sign(std::strncmp(str1, str2, 7)), cxs::strncmp(str1, str2, 7));
+}
+TEST(StrnCmpTest, Regression1) {
+    constexpr const char *str1 = "ababauit";
+    constexpr const char *str2 = "aba";
+    EXPECT_EQ(cxs::strncmp(str1, str2, 3), 0);
 }
 
 // strchr
