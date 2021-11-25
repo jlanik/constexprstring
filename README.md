@@ -14,3 +14,4 @@ Functions that are currently implemented:
 - strpbrk
 - strstr
 
+To use it, just copy and include src/constexprstring.h
