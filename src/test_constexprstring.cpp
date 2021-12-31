@@ -26,10 +26,7 @@ int sign(int val) {
 } // namespace
 
 // c++14 compatibility
-TEST(CPP14Compatibility, Check) {
-    // EXPECT_EQ( 201103L, __cplusplus);
-    EXPECT_EQ(201402L, __cplusplus);
-}
+TEST(CPP14Compatibility, Check) { EXPECT_LE(201402L, __cplusplus); }
 
 // strlen
 TEST(StrlenTest, Empty) {
