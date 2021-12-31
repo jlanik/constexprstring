@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include <cstring>
+#include <random>
 
 namespace cxs = constexprstring;
 
@@ -23,6 +24,13 @@ int sign(int val) {
         return 0;
     }
 }
+
+unsigned char random_symbol() {
+    static std::default_random_engine gen;
+    static std::uniform_int_distribution<unsigned char> distr;
+    return distr(gen);
+}
+
 } // namespace
 
 // c++14 compatibility
@@ -366,4 +374,11 @@ TEST(CharSetTest, StringConstructorConstexpr) {
     static_assert(!chs.isSet('b'));
     static_assert(!chs.isSet('C'));
     static_assert(!chs.isSet('9'));
+}
+TEST(RandomSymbolTest, AllSymbolsGenerated) {
+    std::set<unsigned char> generated_symbols;
+    for (int i = 0; i < 2000; ++i) {
+        generated_symbols.insert(random_symbol());
+    }
+    EXPECT_EQ(256, generated_symbols.size());
 }
